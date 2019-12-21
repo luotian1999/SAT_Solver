@@ -1,0 +1,68 @@
+Exact implementation detail of my SAT Solver is included in the pdf doc/SAT_Solver.pdf
+
+The code is written in C++. The C++ file is in src/SAT_Solver.cpp
+
+The test files are in /dat/ directory. The dat/ directory contains multiple folders that
+contain different testcases.
+All testcases are in the .cnf format.
+Files in dat/uf20-91/ are all satisfiable with 20 variables and 90 clauses.
+Files in dat/uf50-218/ are all satisfiable with 50 variables and 218 clauses.
+Files in dat/uuf50-218/ are all unsatisfiable with 50 variables and 218 clauses.
+More test cases can be found at https://www.cs.ubc.ca/~hoos/SATLIB/benchm.html
+
+To compile run: g++ -std=c++11 -O3 SAT_Solver.cpp -lm
+To run the the compiled program, run: ./a.out < ../path_to_cnf_file/
+
+To see the trace, there are 2 flags.
+-c: This will let you see all the yet to be satisfied clauses with each iteration of the SAT solver
+-v: This will let you see all the assignments to the variables during the run time of the SAT solver.
+This flag will also show you the satisfying assignment to CNF formula if it is satisfiable
+
+I personally suggest using -v only since -c is rather hard to read when there are too many clauses.
+-c is only nice when there are few clauses. For the -v flag, it will print out a line of n symbols,
+where n is the number of variable. If the ith symbol is ".", it means that the ith variable have not
+been assigned a truth value, if the symbol is "+", it means that the ith symbol is assigned to true,
+and if the symbol is "-", it means that the ith symbol is assigned to false. For example,
+if the line outputted is
+
+- + . -
+
+it would mean that the first and 4th variable is set to false and the second variable is set to true.
+
+The SAT solver will run a lot faster if no flags are inputted.
+
+An already compiled version of the code is in /bin/
+
+If you compiled the code in src/, here is an example of how to run a test case with the -v flag:
+./a.out -v < ../dat/uf20-91/uf20-01.cnf
+
+The program takes in CNF formulas as input.
+To manually test my program with manual inputs do the following:
+
+The first line of inputs takes in the string "p cnf " and two numbers n and m where n is the
+number of variables and m is the number of clauses. The next m lines takes in the literals of the
+clause and terminates with a 0. The variables are enumerated 1 through n and the negation of variable
+x is just -x.
+
+For example, the CNF formula: (p and (not p)) will have input
+
+p cnf 1 2
+1 0
+-1 0
+
+The CNF formula: ((p or q) and (p or (not q)) and ((not p) or q) and ((not p) or (not q)))
+will have input:
+
+p cnf 2 4
+1 2 0
+1 -2 0
+-1 2 0
+-1 -2 0
+
+
+
+
+
+
+
+
